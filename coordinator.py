@@ -1,0 +1,1 @@
+# Classical coordination layer: Voronoi area partitioning, APF collision avoidance, consensus sync.

@@ -1,0 +1,1 @@
+# Pygame rendering: draws agents, zones, coverage heatmap, threats, and HUD each frame.

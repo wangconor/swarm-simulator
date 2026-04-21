@@ -1,0 +1,1 @@
+# Entry point. Runs the simulation loop, ticks the coordinator and renderer each frame.

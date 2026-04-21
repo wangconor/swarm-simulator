@@ -1,0 +1,1 @@
+# Shared simulation state: terrain grid, threat objects, coverage map, and mission status.
