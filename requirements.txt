@@ -1,0 +1,6 @@
+numpy
+scipy
+pygame-ce
+anthropic
+plotly
+python-dotenv
