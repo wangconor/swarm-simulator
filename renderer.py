@@ -8,6 +8,7 @@ import pygame
 
 from agent import Agent
 from world import World
+from coordinator import clip_polygon_to_rect
 
 
 class Renderer:
@@ -16,6 +17,7 @@ class Renderer:
     BG_COLOUR = (15, 15, 25)
     GRID_COLOUR = (30, 30, 45)
     HUD_COLOUR = (200, 200, 200)
+    ZONE_COLOUR = (70, 90, 120)
 
     def __init__(self, world: World) -> None:
         self.world = world
@@ -29,12 +31,25 @@ class Renderer:
     def draw(self) -> None:
         self.screen.fill(self.BG_COLOUR)
         self._draw_grid()
+        self._draw_zones()
         for agent in self.world.agents:
             self._draw_agent(agent)
         self._draw_hud()
         pygame.display.flip()
 
     # ── internals ──────────────────────────────────────────────────
+    def _draw_zones(self) -> None:
+        """Outline each agent's assigned Voronoi zone, clipped to the screen rect."""
+        w, h = float(self.world.width), float(self.world.height)
+        for agent in self.world.agents:
+            if agent.zone is None or len(agent.zone) < 3:
+                continue
+            clipped = clip_polygon_to_rect(agent.zone, 0.0, 0.0, w, h)
+            if len(clipped) < 3:
+                continue
+            points = [(int(p[0]), int(p[1])) for p in clipped]
+            pygame.draw.polygon(self.screen, self.ZONE_COLOUR, points, 1)
+
     def _draw_grid(self, spacing: int = 60) -> None:
         for x in range(0, self.world.width, spacing):
             pygame.draw.line(self.screen, self.GRID_COLOUR, (x, 0), (x, self.world.height))
